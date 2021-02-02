@@ -34,8 +34,12 @@ class ApplicationController < ActionController::Base
 
   def calculate_payment
 
-    @num2 = params.fetch("user_number").to_f
-    @root_of_num2 = @num2 ** (0.5)
+    @apr = (params.fetch("user_apr").to_f)
+    @pv = params.fetch("user_pv").to_f
+    @r = @apr/100/12
+    @n= params.fetch("user_years").to_f * 12
+
+    @p = (@r * @pv) / (1 - (1 + @r)**(-1 * @n))
 
     render({ :template => "calculation_templates/payment_results.html.erb"})
   end
